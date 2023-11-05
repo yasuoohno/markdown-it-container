@@ -13,9 +13,11 @@ module.exports = function container_plugin(md, name, options) {
 
   function renderDefault(tokens, idx, _options, env, slf) {
 
-    // add a class to the opening tag
+    // add classes to the opening tag
     if (tokens[idx].nesting === 1) {
-      tokens[idx].attrJoin('class', name);
+      var info = tokens[idx].info;
+      var multiple_class = info && info.match(/^[\-_a-zA-Z]+[_a-zA-Z0-9-]*( [\-_a-zA-Z]+[_a-zA-Z0-9-]*)*/);
+      tokens[idx].attrJoin('class', multiple_class ? multiple_class[0] : name);
     }
 
     return slf.renderToken(tokens, idx, _options, env, slf);
